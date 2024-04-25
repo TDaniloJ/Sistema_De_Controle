@@ -68,11 +68,51 @@
                     <input type="hidden" name="acao" value="enviar">
                     <button type="submit" name="Submit" class="submit_btn" id = "cadastrar" >Cadastrar</button>                              
                 </div>
-           
+                <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD5NFLOufex7Gylqd4RSE7V8icYXQqh93Y",
+  authDomain: "sistema-de-controle-5bc09.firebaseapp.com",
+  databaseURL: "https://sistema-de-controle-5bc09-default-rtdb.firebaseio.com",
+  projectId: "sistema-de-controle-5bc09",
+  storageBucket: "sistema-de-controle-5bc09.appspot.com",
+  messagingSenderId: "53243518833",
+  appId: "1:53243518833:web:084cafc5d7e72d80e7e0d0"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+document.getElementById("cadastrar").addEventListener('click', function(e) {
+  const nome = document.getElementById("nome").value;
+  const email = document.getElementById("email").value;
+  const datanascimento = document.getElementById("datanascimento").value;
+  
+
+  const usuario= {
+    nome: nome,
+    email: email,
+    datanascimento: datanascimento
+  };
+
+  set(ref(db, 'usuarios/' + nome), usuario )
+    .then(() => {
+      alert("Cadastro realizado com sucesso!");
+    })
+    .catch((error) => {
+      console.error("Erro ao cadastrar:", error);
+    });
+});
+
+
+                </script>
+                <script src="firebase.js"></script> 
             </form>
         </div>
     </section>    
-    <script src="firebase.js"></script> 
 </body>
 </html>
 
