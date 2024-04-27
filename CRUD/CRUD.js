@@ -1,29 +1,36 @@
+'use strict'
 
-const db = firebase.firestore();
-const clientesCollection = db.collection('clientes');
-
-const openModal = () => document.getElementById('modal').classList.add('active');
+const openModal = () => document.getElementById('modal')
+    .classList.add('active')
 
 const closeModal = () => {
-    clearFields();
-    document.getElementById('modal').classList.remove('active');
+    clearFields()
+    document.getElementById('modal').classList.remove('active')
 }
 
-const readClient = async () => {
-    const snapshot = await clientesCollection.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+const getLocalStorage = () => JSON.parse(localStorage.getItem('db_client')) ?? []
+const setLocalStorage = (dbClient) => localStorage.setItem("db_client", JSON.stringify(dbClient))
+
+// CRUD - create read update delete
+const deleteClient = (index) => {
+    const dbClient = readClient()
+    dbClient.splice(index, 1)
+    setLocalStorage(dbClient)
 }
 
-const createClient = async (client) => {
-    await clientesCollection.add(client);
+const updateClient = (index, client) => {
+    const dbClient = readClient()
+    dbClient[index] = client
+    setLocalStorage(dbClient)
 }
 
-const updateClient = async (clientId, client) => {
-    await clientesCollection.doc(clientId).update(client);
-}
+const readClient = () => getLocalStorage()
 
-const deleteClient = async (clientId) => {
-    await clientesCollection.doc(clientId).delete();
+const createClient = (client) => {
+    const dbClient = getLocalStorage()
+    dbClient.push (client)
+    setLocalStorage(dbClient)
 }
 
 const isValidFields = () => {
@@ -45,16 +52,18 @@ const saveClient = async () => {
             nome: document.getElementById('nome').value,
             email: document.getElementById('email').value,
             celular: document.getElementById('celular').value,
+            cpf: document.getElementById('cpf').value, // Incluir o CPF
             cidade: document.getElementById('cidade').value
-        };
-
-        const index = document.getElementById('nome').dataset.index;
-
+        }
+        const index = document.getElementById('nome').dataset.index
         if (index == 'new') {
-            await createClient(client);
+            createClient(client)
+            updateTable()
+            closeModal()
         } else {
-            const clientId = document.getElementById('nome').dataset.clientId;
-            await updateClient(clientId, client);
+            updateClient(index, client)
+            updateTable()
+            closeModal()
         }
 
         updateTable();
@@ -62,12 +71,13 @@ const saveClient = async () => {
     }
 }
 
-const createRow = (client) => {
-    const newRow = document.createElement('tr');
+const createRow = (client, index) => {
+    const newRow = document.createElement('tr')
     newRow.innerHTML = `
         <td>${client.nome}</td>
         <td>${client.email}</td>
         <td>${client.celular}</td>
+        <td>${client.cpf}</td> <!-- Adicionar CPF à tabela -->
         <td>${client.cidade}</td>
         <td>
             <button type="button" class="button green edit-button" data-id="${client.id}">Editar</button>
@@ -78,53 +88,64 @@ const createRow = (client) => {
 }
 
 const clearTable = () => {
-    const tbody = document.querySelector('#tableClient>tbody');
-    tbody.innerHTML = '';
+    const rows = document.querySelectorAll('#tableClient>tbody tr')
+    rows.forEach(row => row.parentNode.removeChild(row))
 }
 
-const updateTable = async () => {
-    clearTable();
-    const clients = await readClient();
-    clients.forEach(createRow);
+const updateTable = () => {
+    const dbClient = readClient()
+    clearTable()
+    dbClient.forEach(createRow)
 }
 
 const fillFields = (client) => {
-    document.getElementById('nome').value = client.nome;
-    document.getElementById('email').value = client.email;
-    document.getElementById('celular').value = client.celular;
-    document.getElementById('cidade').value = client.cidade;
-    document.getElementById('nome').dataset.index = 'edit';
-    document.getElementById('nome').dataset.clientId = client.id;
-    document.querySelector(".modal-header>h2").textContent = `Editando ${client.nome}`;
+    document.getElementById('nome').value = client.nome
+    document.getElementById('email').value = client.email
+    document.getElementById('celular').value = client.celular
+    document.getElementById('cidade').value = client.cidade
+    document.getElementById('nome').dataset.index = client.index
 }
 
-const editClient = async (clientId) => {
-    const clients = await readClient();
-    const client = clients.find(c => c.id === clientId);
-    fillFields(client);
-    openModal();
+const editClient = (index) => {
+    const client = readClient()[index]
+    client.index = index
+    fillFields(client)
+    document.querySelector(".modal-header>h2").textContent  = `Editando ${client.nome}`
+    openModal()
 }
 
-const editDelete = async (event) => {
-    if (event.target.classList.contains('edit-button')) {
-        const clientId = event.target.dataset.id;
-        await editClient(clientId);
-    } else if (event.target.classList.contains('delete-button')) {
-        const clientId = event.target.dataset.id;
-        const response = confirm(`Deseja realmente excluir o cliente?`);
-        if (response) {
-            await deleteClient(clientId);
-            updateTable();
+const editDelete = (event) => {
+    if (event.target.type == 'button') {
+
+        const [action, index] = event.target.id.split('-')
+
+        if (action == 'edit') {
+            editClient(index)
+        } else {
+            const client = readClient()[index]
+            const response = confirm(`Deseja realmente excluir o cliente ${client.nome}`)
+            if (response) {
+                deleteClient(index)
+                updateTable()
+            }
         }
     }
 }
 
-// Eventos
-document.getElementById('cadastrarCliente').addEventListener('click', openModal);
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('salvar').addEventListener('click', saveClient);
-document.querySelector('#tableClient>tbody').addEventListener('click', editDelete);
-document.getElementById('cancelar').addEventListener('click', closeModal);
+updateTable()
 
-// Atualizar a tabela na inicialização
-updateTable();
+// Eventos
+document.getElementById('cadastrarCliente')
+    .addEventListener('click', openModal)
+
+document.getElementById('modalClose')
+    .addEventListener('click', closeModal)
+
+document.getElementById('salvar')
+    .addEventListener('click', saveClient)
+
+document.querySelector('#tableClient>tbody')
+    .addEventListener('click', editDelete)
+
+document.getElementById('cancelar')
+    .addEventListener('click', closeModal)
