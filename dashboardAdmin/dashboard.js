@@ -47,3 +47,18 @@
     }
   })
 })()
+
+
+const goToClients = document.getElementById('go-to-clients');
+goToClients.addEventListener('click', () => {
+  window.location.href = './admin-clients/clients.html'
+})
+const goToUsers = document.getElementById('go-to-users');
+goToUsers.addEventListener('click', () => {
+  window.location.href = '../users/users.html'
+})
+
+const returnBtn = document.getElementById('return');
+returnBtn.addEventListener('click', () => {
+    window.location.href = '../index.html'
+})

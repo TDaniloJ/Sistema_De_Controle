@@ -18,10 +18,10 @@ loginButton.addEventListener("click", async () => {
       const isAdmin = user.data().admin;
       if (isAdmin) {
         alert("Login de administrador bem-sucedido!");
-        window.location.href = "dashboardAdmin.html";
+        window.location.href = "./dashboardAdmin/dashboardAdmin.html";
       } else {
         alert("Login de usuário comum bem-sucedido!");
-        window.location.href = "dashboard.html";
+        window.location.href = "./dashboard/dashboard.html";
       }
     } else {
       alert("Usuário ou senha incorretos!");
