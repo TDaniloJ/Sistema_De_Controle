@@ -1,4 +1,4 @@
-import { exportClients, addDocuments, editDocuments, deleteDocuments } from "../../firebase.js";
+import { exportClients, addDocuments, editDocuments, deleteDocuments } from "./firebase.js";
 
 const modal = document.querySelector('.modal-container');
 const tbody = document.querySelector('tbody');
@@ -119,13 +119,3 @@ async function getItemById(id) {
 }
 
 loadItens();
-
-const goToDash = document.getElementById('go-to-dash');
-goToDash.addEventListener('click', () => {
-  window.location.href = '../../dashboardAdmin/dashboardAdmin.html';
-});
-
-const returnBtn = document.getElementById('return');
-returnBtn.addEventListener('click', () => {
-    window.location.href = '../../index.html';
-});

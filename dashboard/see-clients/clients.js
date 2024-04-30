@@ -1,5 +1,4 @@
 var form = document.getElementById("myForm"),
-    imgInput = document.querySelector(".img"),
     file = document.getElementById("imgInput"),
     userName = document.getElementById("name"),
     city = document.getElementById("city"),
@@ -17,29 +16,12 @@ let getData = localStorage.getItem('userProfile') ? JSON.parse(localStorage.getI
 let isEdit = false, editId
 showInfo()
 
-file.onchange = function(){
-    if(file.files[0].size < 1000000){  // 1MB = 1000000
-        var fileReader = new FileReader();
-
-        fileReader.onload = function(e){
-            imgUrl = e.target.result
-            imgInput.src = imgUrl
-        }
-
-        fileReader.readAsDataURL(file.files[0])
-    }
-    else{
-        alert("Foto muito grande, tente outra!")
-    }
-}
-
 
 function showInfo(){
     document.querySelectorAll('.employeeDetails').forEach(info => info.remove())
     getData.forEach((element, index) => {
         let createElement = `<tr class="employeeDetails">
             <td>${index+1}</td>
-            <td><img src="${element.picture}" alt="" width="50" height="50"></td>
             <td>${element.employeeName}</td>
             <td>${element.employeeCity}</td>
             <td>${element.employeeEmail}</td>
@@ -47,7 +29,7 @@ function showInfo(){
 
 
             <td>
-                <button class="btn btn-success" onclick="readInfo('${element.picture}', '${element.employeeName}', '${element.employeeCity}', '${element.employeeEmail}', '${element.employeePhone}')" data-bs-toggle="modal" data-bs-target="#readData"><i class="bi bi-eye"></i></button>
+                <button class="btn btn-success" onclick="readInfo('${element.employeeName}', '${element.employeeCity}', '${element.employeeEmail}', '${element.employeePhone}')" data-bs-toggle="modal" data-bs-target="#readData"><i class="bi bi-eye"></i></button>
                             
             </td>
         </tr>`
@@ -58,8 +40,7 @@ function showInfo(){
 showInfo()
 
 
-function readInfo(pic, name, city, email, phone){
-    document.querySelector('.showImg').src = pic,
+function readInfo(name, city, email, phone){
     document.querySelector('#showName').value = name,
     document.querySelector("#showCity").value = city,
     document.querySelector("#showEmail").value = email,

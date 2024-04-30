@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Cadastro de Clientes</title>
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js"></script>
+
+    <style>
+        /* Estilos opcionais para melhorar a apresentação */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #client-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .client-item {
+            margin-bottom: 10px;
+        }
+        .client-info {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>CRUD de Cadastro de Clientes</h1>
+    <form id="client-form">
+        <input type="text" id="name-input" placeholder="Nome">
+        <input type="text" id="phone-input" placeholder="Telefone">
+        <input type="text" id="city-input" placeholder="Cidade">
+        <input type="email" id="email-input" placeholder="E-mail">
+        <button type="submit">Adicionar Cliente</button>
+    </form>
+    <h2>Lista de Clientes</h2>
+    <ul id="client-list"></ul>
+
+    <script>
+        function loadClients() {
+            db.collection("clientes").get().then((querySnapshot) => {
+                const clientList = document.getElementById('client-list');
+                clientList.innerHTML = '';
+
+                querySnapshot.forEach((doc) => {
+                    const client = doc.data();
+
+                    const li = document.createElement('li');
+                    li.classList.add('client-item');
+
+                    const clientInfo = document.createElement('div');
+                    clientInfo.classList.add('client-info');
+                    clientInfo.textContent = `Nome: ${client.name}, Telefone: ${client.phone}, Cidade: ${client.city}, E-mail: ${client.email}`;
+
+                    const btnExcluir = document.createElement('button');
+                    btnExcluir.textContent = 'Excluir';
+                    btnExcluir.addEventListener('click', () => {
+                        db.collection("clientes").doc(doc.id).delete().then(() => {
+                            loadClients();
+                        }).catch((error) => {
+                            console.error("Error removing document: ", error);
+                        });
+                    });
+
+                    li.appendChild(clientInfo);
+                    li.appendChild(btnExcluir);
+                    clientList.appendChild(li);
+                });
+            }).catch((error) => {
+                console.error("Error getting documents: ", error);
+            });
+        }
+
+        function addClient(client) {
+            db.collection("clientes").add(client)
+                .then((docRef) => {
+                    console.log("Document written with ID: ", docRef.id);
+                    loadClients();
+                })
+                .catch((error) => {
+                    console.error("Error adding document: ", error);
+                });
+        }
+
+    </script>
+</body>
+</html>
