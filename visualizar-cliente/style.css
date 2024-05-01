@@ -1,0 +1,350 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Reset de estilos */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos gerais */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* Estilos do container principal */
+.wrapper {
+    display: flex;
+}
+
+/* Estilos da barra lateral */
+#sidebar {
+    width: 70px;
+    min-width: 70px;
+    z-index: 1000;
+    transition: all .25s ease-in-out;
+    background-color: #235488;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar.expand {
+    width: 260px;
+    min-width: 260px;
+}
+
+.toggle-btn {
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 1rem 1.5rem;
+}
+
+.toggle-btn i {
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+.sidebar-logo {
+    margin: auto 0;
+}
+
+.sidebar-logo a {
+    color: #FFF;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span {
+    display: none;
+}
+
+.sidebar-nav {
+    padding: 2rem 0;
+    flex: 1 1 auto;
+}
+
+.sidebar-item {
+    position: relative;
+}
+
+.sidebar-link {
+    padding: .625rem 1.625rem;
+    color: #FFF;
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link i {
+    font-size: 1.1rem;
+    margin-right: .75rem;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, .075);
+    border-left: 3px solid #3b7ddd;
+}
+
+#sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
+    position: absolute;
+    top: 0;
+    left: 70px;
+    background-color: #22558b;
+    padding: 0;
+    min-width: 15rem;
+    display: none;
+}
+
+#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown {
+    display: block;
+    max-height: 15em;
+    width: 100%;
+    opacity: 1;
+}
+
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"]::after {
+    border: solid;
+    border-width: 0 .075rem .075rem 0;
+    content: "";
+    display: inline-block;
+    padding: 2px;
+    position: absolute;
+    right: 1.5rem;
+    top: 1.4rem;
+    transform: rotate(-135deg);
+    transition: all .2s ease-out;
+}
+
+#sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+    transform: rotate(45deg);
+    transition: all .2s ease-out;
+}
+
+/* Estilos do conteúdo principal */
+.main {
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    background-color: #fafbfe;
+}
+
+/* Estilos do cabeçalho */
+.header {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto 12px;
+}
+
+.header span {
+    font-weight: 500;
+    font-size: 20px;
+    word-break: break-all;
+}
+
+#new {
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    background-color: #235488;
+}
+
+/* Estilos da tabela */
+.divTable {
+    padding: 10px;
+    width: auto; 
+    height:inherit; 
+    overflow:auto;
+}
+
+.divTable::-webkit-scrollbar {
+    width: 12px;
+    background-color: whitesmoke; 
+}
+
+.divTable::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: darkgray; 
+}
+
+table {
+    width: 100%;
+    border-spacing: 10px;
+    word-break: break-all;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: whitesmoke;
+}
+
+tr {
+    border-bottom: 1px solid rgb(238, 235, 235)!important;
+}
+
+tbody tr td {
+    vertical-align: text-top;
+    padding: 6px;
+    max-width: 50px;
+}
+
+thead tr th {
+    padding: 5px;
+    text-align: start;
+    margin-bottom: 50px;
+}
+
+tbody tr {
+    margin-bottom: 50px;
+}
+
+thead tr th.acao {
+    width: 100px!important;
+    text-align: center;
+}
+
+tbody tr td.acao {
+    text-align: center;
+}
+
+/* Estilos para dispositivos menores */
+@media (max-width: 700px) {
+    body {
+        font-size: 10px;
+    }
+    
+    .header span {
+        font-size: 15px;
+    }
+
+    #new {
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    thead tr th.acao {
+        width: auto!important;
+    }
+    
+    td button i {
+        font-size: 20px!important;
+    }
+
+    td button i:first-child {
+        margin-right: 0;
+    }
+
+    .modal {
+        width: 90%!important;
+    }
+
+    .modal label {
+        font-size: 12px!important;
+    }
+}
+
+/* Estilos do modal */
+.modal-container {
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.modal {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 10px;
+    width: 50%;
+}
+
+.modal label {
+    font-size: 14px;
+    width: 100%;
+}
+
+.modal input {
+    width: 100%;
+    outline: none;
+    padding: 5px 10px; 
+    width: 100%;
+    margin-bottom: 20px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.modal button {
+    width: 100%;
+    margin: 10px auto;
+    outline: none;
+    border-radius: 20px; 
+    padding: 5px 10px; 
+    width: 100%;
+    border: none;
+    background-color: #235488;
+    color: white;
+}
+
+.active {
+    display: flex;
+}
+
+.active .modal {
+    animation: modal .4s;
+}
+
+@keyframes modal {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -60px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+td button {
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+td button i {
+    font-size: 25px;
+}
+
+td button i:first-child {
+    margin-right: 10px;
+}

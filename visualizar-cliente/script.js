@@ -1,4 +1,4 @@
-import { exportClients, addDocuments, editDocuments, deleteDocuments } from "./firebase.js";
+import { exportClients, addDocuments, editDocuments, deleteDocuments } from "../firebase.js";
 
 const modal = document.querySelector('.modal-container');
 const tbody = document.querySelector('tbody');
@@ -38,7 +38,6 @@ async function openModal(edit = false, id = null) {
   }
 }
 
-addNew.onclick = () => openModal();
 
 async function editItem(id) {
   openModal(true, id);
@@ -98,17 +97,8 @@ async function loadItens() {
       <td>${item.cidade}</td>
       <td>${item.email}</td>
       <td>${item.telefone}</td>
-      <td class="acao">
-        <button class="editBtn"><i class='bx bx-edit' ></i></button>
-      </td>
-      <td class="acao">
-        <button class="deleteBtn"><i class='bx bx-trash'></i></button>
-      </td>
     `;
     tbody.appendChild(tr);
-
-    tr.querySelector('.editBtn').addEventListener('click', () => editItem(item.id));
-    tr.querySelector('.deleteBtn').addEventListener('click', () => deleteItem(item.id));
   });
 }
 
@@ -119,3 +109,30 @@ async function getItemById(id) {
 }
 
 loadItens();
+
+
+const hamBurger = document.querySelector(".toggle-btn");
+
+hamBurger.addEventListener("click", function () {
+  document.querySelector("#sidebar").classList.toggle("expand");
+});
+
+const goToClients = document.getElementById('go-to-clients');
+goToClients.addEventListener("click", function () {
+    window.location.href = '../visualizar-cliente/index.html'
+});
+
+const goToDash = document.getElementById('go-to-dash');
+goToDash.addEventListener("click", function () {
+    window.location.href = '../dashboard-user/index.html'
+});
+
+const logOut = document.getElementById('log-out');
+logOut.addEventListener("click", function () {
+    const confirmLogout = confirm("Tem certeza de que deseja sair?");
+
+    if (confirmLogout) {
+        window.location.href = '../index.html';
+    } else {
+    }
+});

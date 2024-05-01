@@ -1,15 +1,15 @@
-import { exportDocs } from "./firebase.js";
+import { exportUsers } from "./firebase.js";
 
-const loginButton = document.getElementById("btn-login");
-const emailInput = document.getElementById("floatingInput");
-const passwordInput = document.getElementById("floatingPassword");
+const loginButton = document.getElementById("login");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
 
 loginButton.addEventListener("click", async () => {
   const email = emailInput.value;
   const password = passwordInput.value;
 
   try {
-    const querySnapshot = await exportDocs();
+    const querySnapshot = await exportUsers();
     const user = querySnapshot.docs.find(doc => 
       doc.exists && doc.data().email === email && doc.data().senha === password
     );
@@ -18,10 +18,10 @@ loginButton.addEventListener("click", async () => {
       const isAdmin = user.data().admin;
       if (isAdmin) {
         alert("Login de administrador bem-sucedido!");
-        window.location.href = "./dashboardAdmin/dashboardAdmin.html";
+        window.location.href = "./dashboard-admin/index.html";
       } else {
         alert("Login de usuário comum bem-sucedido!");
-        window.location.href = "./dashboard/dashboard.html";
+        window.location.href = "./dashboard-user/index.html";
       }
     } else {
       alert("Usuário ou senha incorretos!");
