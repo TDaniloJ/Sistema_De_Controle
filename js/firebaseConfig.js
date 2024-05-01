@@ -15,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 
 export const estadosCollection = collection(firestore, "estado");
-export const clientesCollection = collection(firestore, "cliente");
+export const clientesCollection = collection(firestore, "clientes");
 
 export async function exportDocs() {
     const querySnapshotEstados = await getDocs(estadosCollection);
