@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="style.css">
     <script defer src="./script.js"></script>
     <script defer type="module" src="../firebase.js"></script>
+    <script defer type="module" src="../graficos/grafico.js"></script>
+    <script defer type="module" src="../graficos/graficopizza.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -47,7 +50,19 @@
         </aside>
         <div class="main p-3">
 
-            <p>grafico aqui</p>
+            <p>Gráficos</p>
+
+            <hr>
+
+            <div class="card chart-container my-4 w-100 p-3 ">
+                <div id="chart_div" style="width: 900px; height: 390px;"></div>
+            </div>
+
+            <p>Gráficos em Pizza</p>
+
+            <hr>
+
+            <div id="piechart" style="width: 900px; height: 500px;"></div>
 
         </div>
     </div>

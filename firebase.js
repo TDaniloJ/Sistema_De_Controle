@@ -42,3 +42,11 @@ export function deleteDocuments(colecao, docId) {
   const docRef = doc(firestore, colecao, docId);
   return deleteDoc(docRef);
 }
+
+export async function exportDocs() {
+  const querySnapshotClientes = await getDocs(clients);
+
+  return {
+      clientes: querySnapshotClientes
+  };
+}
