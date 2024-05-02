@@ -142,6 +142,11 @@ goToDash.addEventListener("click", function () {
     window.location.href = '../dashboard-admin/index.html'
 });
 
+const mainToDash = document.getElementById('main-to-dash');
+mainToDash.addEventListener("click", function () {
+    window.location.href = '../dashboard-admin/index.html'
+});
+
 const logOut = document.getElementById('log-out');
 logOut.addEventListener("click", function () {
     const confirmLogout = confirm("Tem certeza de que deseja sair?");
