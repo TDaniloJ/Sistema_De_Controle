@@ -33,14 +33,17 @@ export async function exportClients() {
     return querySnapshot;
 }
 
-export async function createUserAndAddUserInfo(email, senha, admin) {
+export async function createUserAndAddUserInfo(email, senha, admin, nome, cnpj, telefone) {
   try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
       const user = userCredential.user;
 
       await addDoc(collection(firestore, "usuarios"), {
           email: email,
-          admin: admin
+          admin: admin,
+          nome: nome,
+          cnpj: cnpj,
+          telefone: telefone
       });
 
       return user;
