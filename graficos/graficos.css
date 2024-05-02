@@ -1,0 +1,7 @@
+.chart-line {
+    display: inline-block;
+    width: 1px;
+    height: 390px;
+    background-color: #00000034;
+    margin: 0 20px;
+}

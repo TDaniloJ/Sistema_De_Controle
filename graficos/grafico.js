@@ -23,6 +23,9 @@ async function countClientsByCity() {
     }
 }
 
+google.charts.load('current', { 'packages': ['bar', 'corechart'] });
+google.charts.setOnLoadCallback(generateChart);
+
 async function generateChart() {
     const clientsByCity = await countClientsByCity();
     if (clientsByCity) {
@@ -39,9 +42,10 @@ async function generateChart() {
 }
 
 function drawChart(data) {
-    var data = google.visualization.arrayToDataTable(data);
+    const cities = data.slice(1).map(row => row[0]);
+    const colors = ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '#316395'];
 
-    var options = {
+    const options = {
         width: '100%',
         legend: { position: 'none' },
         chart: {
@@ -53,11 +57,15 @@ function drawChart(data) {
                 0: { side: 'top', label: 'Cidade' }
             }
         },
-        bar: { groupWidth: "90%" }
+        bar: { groupWidth: "90%" },
+        colors: cities.map((city, index) => colors[index % colors.length])
     };
 
+    var chartData = google.visualization.arrayToDataTable(data);
     var chart = new google.charts.Bar(document.getElementById('chart_div'));
-    chart.draw(data, google.charts.Bar.convertOptions(options));
+    chart.draw(chartData, google.charts.Bar.convertOptions(options));
 }
+
+
 
 generateChart();
