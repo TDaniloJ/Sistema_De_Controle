@@ -1,5 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyD5NFLOufex7Gylqd4RSE7V8icYXQqh93Y",
@@ -15,6 +17,8 @@ export const app = initializeApp(firebaseConfig);
 
 export const firestore = getFirestore(app);
 
+export const auth = getAuth(app);
+
 export const users = collection(firestore, "usuarios");
 
 export const clients = collection(firestore, "clientes");
@@ -27,6 +31,22 @@ export async function exportUsers() {
 export async function exportClients() {
     const querySnapshot = await getDocs(clients);
     return querySnapshot;
+}
+
+export async function createUserAndAddUserInfo(email, senha, admin) {
+  try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+      const user = userCredential.user;
+
+      await addDoc(collection(firestore, "usuarios"), {
+          email: email,
+          admin: admin
+      });
+
+      return user;
+  } catch (error) {
+      throw error;
+  }
 }
 
 export function addDocuments(colecao, dados) {

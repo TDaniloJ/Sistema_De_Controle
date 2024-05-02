@@ -1,11 +1,13 @@
-import { addDocuments } from "../firebase.js";
+import { createUserAndAddUserInfo } from "../firebase.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
 
+    // Adicione um listener para o evento de submit do formulário
     form.addEventListener("submit", async (e) => {
         e.preventDefault(); 
 
+        // Captura os valores dos campos do formulário
         const nome = form.querySelector('input[name="nome"]').value;
         const email = form.querySelector('input[name="email"]').value;
         const senha = form.querySelector('input[name="senha"]').value;
@@ -13,28 +15,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const funcaoAdmin = form.querySelector('input[id="dot-1"]:checked'); 
         const funcaoUsuario = form.querySelector('input[id="dot-2"]:checked');
 
+        // Verifica se o e-mail é válido
         if (!isValidEmail(email)) {
             alert("Por favor, insira um endereço de e-mail válido.");
             return; 
         }
 
+        // Verifica se as senhas coincidem
         if (senha !== confirmarSenha) {
             alert("As senhas não coincidem. Por favor, digite novamente.");
             return;
         }
 
+        // Verifica se a função de admin ou usuário foi selecionada
         if (funcaoAdmin || funcaoUsuario) {
-
-            const dadosUsuario = {
-                nome: nome,
-                email: email,
-                senha: senha,
-                admin: funcaoAdmin ? true : false
-            };
-
             try {
-
-                await addDocuments("usuarios", dadosUsuario);
+                // Cria o usuário e adiciona informações no Firestore
+                await createUserAndAddUserInfo(email, senha, funcaoAdmin ? true : false);
                 alert("Usuário cadastrado com sucesso!");
                 form.reset(); 
             } catch (error) {
@@ -45,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Por favor, selecione uma função (admin ou usuário).");
         }
     });
+
 });
 
 function isValidEmail(email) {
