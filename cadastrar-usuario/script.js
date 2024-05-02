@@ -69,7 +69,7 @@ function validarCNPJ(cnpj) {
     if (/^(\d)\1+$/.test(cnpj)) {
         return false;
     }
-J
+
     let tamanho = cnpj.length - 2;
     let numeros = cnpj.substring(0, tamanho);
     const digitos = cnpj.substring(tamanho);
