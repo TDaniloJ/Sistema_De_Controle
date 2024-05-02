@@ -6,6 +6,7 @@ const sNome = document.querySelector('#m-nome');
 const sCidade = document.querySelector('#m-cidade');
 const sEmail = document.querySelector('#m-email');
 const sTelefone = document.querySelector('#m-telefone');
+const sCpf = document.querySelector('#m-cpf');
 const btnSalvar = document.querySelector('#btnSalvar');
 const addNew = document.querySelector('#new');
 
@@ -27,6 +28,7 @@ async function openModal(edit = false, id = null) {
       sCidade.value = item.cidade;
       sEmail.value = item.email;
       sTelefone.value = item.telefone;
+      sCpf.value = item.cpf;
       itemId = id;
     }
   } else {
@@ -34,10 +36,10 @@ async function openModal(edit = false, id = null) {
     sCidade.value = '';
     sEmail.value = '';
     sTelefone.value = '';
+    sCpf.value = '';
     itemId = null;
   }
 }
-
 
 async function editItem(id) {
   openModal(true, id);
@@ -63,7 +65,12 @@ async function updateItem(item) {
 btnSalvar.onclick = async (e) => {
   e.preventDefault();
 
-  if (sNome.value == '' || sCidade.value == '' || sEmail.value == '' || sTelefone.value == '') {
+  if (sNome.value == '' || sCidade.value == '' || sEmail.value == '' || sTelefone.value == '' || sCpf.value == '') {
+    return;
+  }
+
+  if (!validarCPF(sCpf.value)) {
+    alert('CPF inválido. Por favor, insira um CPF válido.');
     return;
   }
 
@@ -71,7 +78,8 @@ btnSalvar.onclick = async (e) => {
     nome: sNome.value,
     cidade: sCidade.value,
     email: sEmail.value,
-    telefone: sTelefone.value
+    telefone: sTelefone.value,
+    cpf: sCpf.value
   };
 
   if (itemId) {
@@ -97,8 +105,10 @@ async function loadItens() {
       <td>${item.cidade}</td>
       <td>${item.email}</td>
       <td>${item.telefone}</td>
+      <td>${item.cpf}</td>
     `;
     tbody.appendChild(tr);
+
   });
 }
 
