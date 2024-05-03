@@ -43,7 +43,7 @@ async function generateChart() {
 
 function drawChart(data) {
     const cities = data.slice(1).map(row => row[0]);
-    const colors = ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '#316395'];
+    const colors = ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '##32CD32', '##DEB887', '##DA70D6'];
 
     const options = {
         width: '100%',

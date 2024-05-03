@@ -29,7 +29,7 @@ async function drawChart() {
     if (clientsByCity) {
         const data = [['Cidade', 'Clientes']];
         const cities = Object.keys(clientsByCity).sort(); // Obtém todas as cidades e ordena alfabeticamente
-        const colors = ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '#316395'];
+        const colors = ['#3366CC', '#DC3912', '#FF9900', '#109618', '#990099', '#0099C6', '#DD4477', '#66AA00', '#B82E2E', '##DA70D6'];
         const colorMap = {};
 
         cities.forEach((city, index) => {
